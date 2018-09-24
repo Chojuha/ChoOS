@@ -12,7 +12,6 @@ Making:
 	make -C $(CHOOSLOCATION) clean
 	make -C $(CHOOSLOCATION) all
 	git.exe pull -v --progress "origin" >NUL
-	git commit -m "ChoOS Source and QEMU"
 	git.exe push -v --progress "origin" master:master
 Start:
 	qemu-system-x86_64 -L $(QEMULOCATION) -m $(MEMORYSIZE) -fda $(CHOOSLOCATIONFORWINDOWS)\\Disk.img -hda $(CHOOSLOCATIONFORWINDOWS)\\HDD.img -localtime -M pc -smp $(CORECOUNT) -serial tcp:$(IPADDRESS):$(PORTNUMBER),server,nowait 
