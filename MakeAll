@@ -1,0 +1,19 @@
+all: Making Start 
+
+CHOOSLOCATION = /cygdrive/e/ChoOSMake
+CHOOSLOCATIONFORWINDOWS = "E:\ChoOSMake"
+QEMULOCATION = "C:/Program Files/qemu"
+MEMORYSIZE = 128
+CORECOUNT = 16
+IPADDRESS = 127.0.0.1
+PORTNUMBER = 4444
+
+Making:
+	make -C $(CHOOSLOCATION) clean
+	make -C $(CHOOSLOCATION) all
+	git commit -m "ChoOS Version 1.0"
+	git push
+Start:
+	qemu-system-x86_64 -L $(QEMULOCATION) -m $(MEMORYSIZE) -fda $(CHOOSLOCATIONFORWINDOWS)\\Disk.img -hda $(CHOOSLOCATIONFORWINDOWS)\\HDD.img -localtime -M pc -smp $(CORECOUNT) -serial tcp:$(IPADDRESS):$(PORTNUMBER),server,nowait 
+clean:
+	make -C $(CHOOSLOCATION) clean

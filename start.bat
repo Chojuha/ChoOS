@@ -1,0 +1,1 @@
+.\qemu-system-x86_64 -L . -m 1024 -fda Disk.img -hda HDD.img -localtime -M pc -serial tcp:127.0.0.1:4444,server,nowait 
