@@ -1276,7 +1276,12 @@ static void ReadFileInConsole(CONSOLECOLOR Color , const char *ParameterBuffer) 
 		if(FileKey == '\n') {
 			ChangeLine++;
 		}
-		Printf(Color , "%c" , FileKey);
+		if(FileKey == 0x0D) {
+			;
+		}
+		else {
+			Printf(Color , "%c" , FileKey);
+		}
 	}
 	Printf(Color , "\n");
 	fclose(FileOpen);
