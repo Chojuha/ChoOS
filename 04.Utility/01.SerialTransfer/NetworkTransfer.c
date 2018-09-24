@@ -79,7 +79,7 @@ int main(int argc , char **argv) {
 		if(recv(Socket , &Ack , 1 , 0) != 1) {
 			fprintf(stderr , "Ack Receive Error\n");
 		}
-		fprintf(stderr , "#");
+		fprintf(stderr , ".");
 	}
 	fclose(fp);
 	close(Socket);

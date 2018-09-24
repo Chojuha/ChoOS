@@ -55,6 +55,7 @@ SHELLCOMMANDENTRY CommandTable[] = {
 	{"cs" , "Execute *.CE or *.CS File" , ExecuteConsoleShellScript} , 
 	{"~>" , "Comments. using CS Script" , Comments} , 
 	{"editor" , "Start Editor" , Edit} , 
+	{"readfile" , "Reading File" , ReadFileInConsole} , 
 };
 
 void TimeTask(void) {
@@ -483,7 +484,7 @@ static void TestTask(void) {
 	CHARACTER *Screen = (CHARACTER*)CONSOLE_VIDEOMEMORYADDRESS;
 	TCB *RunningTask;
 	RunningTask = GetRunningTask(GetAPICID());
-	Offset = ((RunningTask->Link.ID & 0xFFFFFFFF)*2)-2;
+	Offset = (((RunningTask->Link.ID & 0xFFFFFFFF)*2));
 	Offset = CONSOLE_WIDTH*CONSOLE_HEIGHT-(Offset % (CONSOLE_WIDTH*CONSOLE_HEIGHT));
 	while(1) {
 		Screen[Offset].Charactor = (Random()%255)+1;
@@ -793,6 +794,18 @@ static void ShowRootDirectory(CONSOLECOLOR Color , const char *ParameterBuffer) 
 		}
 		else if(IsEqual(FileType , ".ce")||IsEqual(FileType , ".CE")||IsEqual(FileType , ".CONEXECUTE")||IsEqual(FileType , ".conexeucte")||IsEqual(FileType , ".conexe")||IsEqual(FileType , ".CONEXE")||IsEqual(FileType , ".cs")||IsEqual(FileType , ".CS")) {
 			SPrintf(TempVal , "Console Execute File");
+		}
+		else if(IsEqual(FileType , "")||IsEqual(FileType , "")||IsEqual(FileType , "")||IsEqual(FileType , "")||IsEqual(FileType , "")||IsEqual(FileType , "")||IsEqual(FileType , "")||IsEqual(FileType , "")) {
+			SPrintf(TempVal , "Just File");
+		}
+		else if(IsEqual(FileType , ".c")||IsEqual(FileType , ".C")) {
+			SPrintf(TempVal , "C Source File");
+		}
+		else if(IsEqual(FileType , ".h")||IsEqual(FileType , ".hpp")||IsEqual(FileType , ".rh")||IsEqual(FileType , ".hh")) {
+			SPrintf(TempVal , "C/C++ Header File");
+		}
+		else if(IsEqual(FileType , ".cpp")||IsEqual(FileType , ".cc")||IsEqual(FileType , ".cxx")||IsEqual(FileType , ".c++")||IsEqual(FileType , ".cp")||IsEqual(FileType , ".CPP")||IsEqual(FileType , ".CC")||IsEqual(FileType , ".CXX")||IsEqual(FileType , ".C++")||IsEqual(FileType , ".CP")) {
+			SPrintf(TempVal , "C++ Source File");
 		}
 		else {
 			SPrintf(TempVal , "Unknow File Type");
@@ -1155,8 +1168,21 @@ static void CheckFileSystem(CONSOLECOLOR Color , const char *ParameterBuffer) {
 		Printf(Color , "SUCCESS(Write)\n");
 		fprintf(LogFileSave , "SUCCESS(Write)\n");
 	}
-	for(i = 0 ; i < 1024; i++) {
-		fprintf(Check , "%d" , Random());
+	int TX;
+	int TY;
+	GetCursor(&TX , &TY);
+	for(i = 0 ; i <= 90; i++) {
+		int f;
+		SetCursor(TX , TY);
+		Printf(Color , "WRITE OFFSET:%d\n" , i);
+		for(f = 0; f < 10; f++) {
+			if((fprintf(Check , "%c" , Random())) == 0) {
+				Printf(Color , "FAILED.\n\n");
+				goto ERR;
+			}
+			SetCursor(TX , TY+1);
+			Printf(Color , "SUCCESS.\n");
+		}
 	}
 	fclose(Check);
 	Printf(Color , "4. Remove Empty File\n");
@@ -1204,6 +1230,7 @@ static void CheckFileSystem(CONSOLECOLOR Color , const char *ParameterBuffer) {
 		fprintf(LogFileSave , "SUCCESS\n");
 	}
 	if(Error == TRUE) {
+ERR:
 		Printf(Color , "File System Test is Failed.\n");
 		Printf(Color , "Shutdown or Restart your PC and try again.\n");
 		Printf(Color , "File System Check log file name:FSCheck.log\n");
@@ -1589,7 +1616,7 @@ static void Edit(CONSOLECOLOR Color , const char *ParameterBuffer) {
 			case KEY_F6:
 				break;
 			case KEY_ESC:
-				break;
+				goto EXIT;
 			case KEY_LEFT:
 				X--;
 				break;
@@ -1613,5 +1640,14 @@ static void Edit(CONSOLECOLOR Color , const char *ParameterBuffer) {
 			Y++;
 		}
 	}
-	ExecuteCommandInCS(Color , "clrscr");
+EXIT:
+	Printf(Color , "\"");
+	for(i = 0; i <= 10; i++) {
+		if(Screen[CONVERTXY(i , 3)].Charactor == 0) {
+			Printf(0x07 , " ");
+		}
+		else {
+			Printf(0x07 , "%c" , Screen[CONVERTXY(i , 3)].Charactor);
+		}
+	}
 }

@@ -13,5 +13,7 @@ Making:
 	make -C $(CHOOSLOCATION) all
 Start:
 	qemu-system-x86_64 -L $(QEMULOCATION) -m $(MEMORYSIZE) -fda $(CHOOSLOCATIONFORWINDOWS)\\Disk.img -hda $(CHOOSLOCATIONFORWINDOWS)\\HDD.img -localtime -M pc -smp $(CORECOUNT) -serial tcp:$(IPADDRESS):$(PORTNUMBER),server,nowait 
+start:
+	qemu-system-x86_64 -L $(QEMULOCATION) -m $(MEMORYSIZE) -fda $(CHOOSLOCATIONFORWINDOWS)\\Disk.img -hda $(CHOOSLOCATIONFORWINDOWS)\\HDD.img -localtime -M pc -smp $(CORECOUNT) -serial tcp:$(IPADDRESS):$(PORTNUMBER),server,nowait 
 clean:
 	make -C $(CHOOSLOCATION) clean

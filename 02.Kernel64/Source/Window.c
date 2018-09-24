@@ -244,7 +244,7 @@ WINDOW *GetWindowWithWindowLock(QWORD WindowID) {
 	}
 	Lock(&(Window->Lock));
 	Window = GetWindow(WindowID);
-	if((Window == NULL||(Window->EventBuffer == NULL)||(Window->WindowBuffer == NULL))) {
+	if((Window == NULL)||(Window->EventBuffer == NULL)||(Window->WindowBuffer == NULL)) {
 		UnLock(&(Window->Lock));
 		return NULL;
 	}
