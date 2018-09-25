@@ -1,23 +1,23 @@
-all: BootLoader Kernel32 Kernel64 Utility Disk.img
+all: BuildBootLoader BuildKernel32 BuildKernel64 BuildUtility Disk.img
 
-BootLoader:
-	make -C 00.BootLoader
+BuildBootLoader:
+	make -C BootLoader
 	
-Kernel32:
-	make -C 01.Kernel32
+BuildKernel32:
+	make -C Kernel32
 
-Kernel64:
-	make -C 02.Kernel64
+BuildKernel64:
+	make -C Kernel64
 	
-Utility:
-	make -C 04.Utility
+BuildUtility:
+	make -C Utility
 	
-Disk.img: 00.BootLoader/BootLoader.bin 01.Kernel32/Kernel32.bin 02.Kernel64/Kernel64.bin
-	./04.Utility/00.ImageMaker/ImageMaker.exe $^
+Disk.img: BootLoader/BootLoader.bin Kernel32/Kernel32.bin Kernel64/Kernel64.bin
+	./Utility/ImageMaker/ImageMaker.exe $^
 
 clean:
-	make -C 00.BootLoader clean
-	make -C 01.Kernel32 clean
-	make -C 02.Kernel64 clean
-	make -C 04.Utility clean
+	make -C BootLoader clean
+	make -C Kernel32 clean
+	make -C Kernel64 clean
+	make -C Utility clean
 	rm -f Disk.img
