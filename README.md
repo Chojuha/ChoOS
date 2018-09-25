@@ -12,5 +12,5 @@
 NTRawrite -f Disk.img -d A:
 ````
 [NTRawrite Download](http://ntrawrite.sourceforge.net)
-#### =============================
+#### ============================
 ###### Copyright 2017-2018 ChoOS co. All rights reserverd.
