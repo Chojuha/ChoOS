@@ -387,6 +387,10 @@ static void ShowSystemInformation(CONSOLECOLOR Color , const char *ParameterBuff
 }
 
 void ShutdownChoOS(CONSOLECOLOR Color , const char *ParameterBuffer) {
+	if(FlushFileSystemCache() == FALSE) {
+		Printf(Color , "FileSystem Cache Flush error.\n");
+		return;
+	}
 	CONSOLECOLOR Color_A = Color;
 	ClearScreen(Color);
 	PARAMETERLIST List;
@@ -394,6 +398,9 @@ void ShutdownChoOS(CONSOLECOLOR Color , const char *ParameterBuffer) {
 	InitParameter(&List , ParameterBuffer);
 	if(GetNextParameter(&List , Parameter) == 0) {
 		goto SHUTDOWNSTART;
+	}
+	else if(IsEqual(Parameter , "SDN") == TRUE) {
+		goto HLTING;
 	}
 	else if(IsEqual(Parameter , "RST") == TRUE) {
 		Reboot();
@@ -403,22 +410,33 @@ void ShutdownChoOS(CONSOLECOLOR Color , const char *ParameterBuffer) {
 	}
 SHUTDOWNSTART:
 	Printf(Color , "<Shutdown ChoOS>\n\n");
-	Printf(Color , "1. Restart ChoOS\n");
-	Printf(Color , "2. Return Console\n\n");
+	Printf(Color , "1. Shutdown ChoOS\n");
+	Printf(Color , "2. Restart ChoOS\n");
+	Printf(Color , "3. Return Console\n\n");
 	Printf(Color , "Please Input Number [ ]");
 	SetCursor(21 , 5);
 	char a;
 	a = GetCh();
 	if(a == '1') {
-		if(FlushFileSystemCache() == FALSE) {
-			return;
-		}
+HLTING:
+		ClearScreen(0x00);
+		int i;
+		DisableInterrupt();
+		for(i = 0; i )
+		EndTask();
+	}
+	if(a == '2') {
 		Reboot();
 	}
 	else {
-		ClearScreen(Color_A);
-		SetCursor(0 , 1);
-		return;
+		if(a == '3') {
+			ClearScreen(Color_A);
+			SetCursor(0 , 1);
+			return;
+		}
+		else {
+			goto SHUTDOWNSTART;
+		}
 	}
 }
 
