@@ -159,12 +159,12 @@ void DemoGUITask(void) {
         {
             Sleep( 0 );
             continue;
-        }   
+        }  
         
         // 윈도우 이벤트 정보가 표시될 영역을 배경색으로 칠하여 이전에 표시한 데이터를
         // 모두 지움
         DrawRect( qwWindowID, 11, iY + 20, iWindowWidth - 11, iY + 69, 
-                   WINDOW_COLOR_BACKGROUND, TRUE );     
+                   WINDOW_COLOR_BACKGROUND, TRUE );  
         
         // 수신된 이벤트를 타입에 따라 나누어 처리
         switch( stReceivedEvent.Type )
@@ -177,6 +177,7 @@ void DemoGUITask(void) {
         case EVENT_MOUSE_RBUTTONUP:
         case EVENT_MOUSE_MBUTTONDOWN:
         case EVENT_MOUSE_MBUTTONUP:
+            Reboot();
             // 여기에 마우스 이벤트 처리 코드 넣기
             pstMouseEvent = &( stReceivedEvent.MouseEvent );
 

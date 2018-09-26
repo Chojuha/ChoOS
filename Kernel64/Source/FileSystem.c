@@ -25,7 +25,7 @@ BOOL InitFileSystem(void) {
         gs_pfReadHDDSector = ReadHDDSector;
         gs_pfWriteHDDSector = WriteHDDSector;
     }
-    else if(InitRAMDisk(RDD_TOTALSECTORCOUNT) == TRUE) {
+    else if(InitRAMDisk((GetTotalRamSize()*10*1024*1024)/512) == TRUE) {
     	IsRAMDiskUsedB = TRUE;
         gs_pfReadHDDInformation = ReadRAMDiskInformation;
         gs_pfReadHDDSector = ReadRAMDiskSector;
