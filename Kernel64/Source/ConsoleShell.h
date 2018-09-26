@@ -67,5 +67,6 @@ static void CopyFileInConsole(CONSOLECOLOR Color , const char *ParameterBuffer);
 static void ExecuteConsoleShellScript(CONSOLECOLOR Color , const char *ParameterBuffer);
 static void Comments(CONSOLECOLOR Color , const char *ParameterBuffer);
 static void Edit(CONSOLECOLOR Color , const char *ParameterBuffer);
+static void QTST(CONSOLECOLOR Color , const char *ParameterBuffer);
 
 #endif
