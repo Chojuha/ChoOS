@@ -56,13 +56,18 @@ SHELLCOMMANDENTRY CommandTable[] = {
 	{"~>" , "Comments. using CS Script" , Comments} , 
 	{"editor" , "Start Editor" , Edit} , 
 	{"readfile" , "Reading File" , ReadFileInConsole} , 
+	{"queuetest" , "TEST1" , QTST} , 
 };
+
+QWORD TimeTaskID;
 
 void TimeTask(void) {
 	int i;
 	for(i = 0; i < 80; i++) {
 		KernelPrintfXY(0x22 , i , 24 , " ");
 	}
+	TCB *Tcb = GetRunningTask(GetAPICID());
+	TimeTaskID = Tcb->Link.ID;
 	while(1) {
 		BYTE Second;
 		BYTE Minute;
@@ -421,9 +426,10 @@ SHUTDOWNSTART:
 HLTING:
 		ClearScreen(0x00);
 		int i;
+		EndTask(TimeTaskID);
 		DisableInterrupt();
-		for(i = 0; i )
-		EndTask();
+		Printf(0x07 , "Now you can Press Power Button to Shutdown Computer.");
+		while(1);
 	}
 	if(a == '2') {
 		Reboot();
@@ -1673,4 +1679,15 @@ EXIT:
 			Printf(0x07 , "%c" , Screen[CONVERTXY(i , 3)].Charactor);
 		}
 	}
+}
+
+static void QTST(CONSOLECOLOR Color , const char *ParameterBuffer) {
+	void *Buffer;
+	Buffer = AllocateMemory(sizeof(char)*1024);
+	QUEUE *Queue;
+	InitQueue(Queue , Buffer , 1024 , sizeof(char));
+	PutQueue(Queue , (void*)'H');
+	char DefBuffer;
+	GetQueue(Queue , DefBuffer);
+	Printf(Color , "Input:'H'\nOutput:'%c'\n" , DefBuffer);
 }
