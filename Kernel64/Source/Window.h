@@ -73,7 +73,8 @@ typedef struct WindowEventStruct {
 
 typedef struct EventStruct {
 	QWORD Type;
-	union {
+	union
+	{
 		MOUSEEVENT MouseEvent;
 		KEYEVENT KeyEvent;
 		WINDOWEVENT WindowEvent;

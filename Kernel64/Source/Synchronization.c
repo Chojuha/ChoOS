@@ -50,7 +50,6 @@ void UnLock(MUTEX *Mutex) {
 	}
 	if(Mutex->LockCount > 1) {
 		Mutex->LockCount--;
-		return;
 	}
 	else {
 		Mutex->TaskID = TASK_INVALIDID;

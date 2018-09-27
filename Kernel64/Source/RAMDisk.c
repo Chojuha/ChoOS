@@ -18,7 +18,7 @@ BOOL InitRAMDisk(DWORD TotalSectorCount) {
 BOOL ReadRAMDiskInformation(BOOL Primary , BOOL Master , HDDINFORMATION *HDDInformation) {
 	MemSet(HDDInformation , 0 , sizeof(HDDINFORMATION));
 	HDDInformation->TotalSectors = RAMDiskManager.TotalSectorCount;
-	MemCpy(HDDInformation->SerialNumber , "1234-5678" , 9);
+	MemCpy(HDDInformation->SerialNumber , "CRDD-0001" , 9);
 	MemCpy(HDDInformation->ModelNumber , "ChoOS RAM Disk" , 14);
 	return TRUE;
 }
